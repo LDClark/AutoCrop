@@ -1,9 +1,9 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30517.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCrop", "AutoCrop.csproj", "{9E471C80-394E-4E7E-A485-62BD7F77644F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoRing_SIB", "AutoRing_SIB.csproj", "{9E471C80-394E-4E7E-A485-62BD7F77644F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
