@@ -1,6 +1,6 @@
-﻿using System.Windows;
+using System.Windows;
 
-namespace AutoCrop
+namespace AutoRing_SIB
 {
     public partial class ProgressDialog : Window
     {
