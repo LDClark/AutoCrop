@@ -1,97 +1,80 @@
-﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System.Collections.Generic;
 using System.Windows.Input;
-using VMS.TPS.Common.Model.API;
-using System.Linq;
 
-namespace AutoCrop
+namespace AutoRing_SIB
 {
     public class MainViewModel : ViewModelBase
     {
         private readonly IEsapiService _esapiService;
         private readonly IDialogService _dialogService;
-
         public MainViewModel(IEsapiService esapiService, IDialogService dialogService)
         {
             _esapiService = esapiService;
             _dialogService = dialogService;
         }
-
         private Struct[] _structuresHigh;
         public Struct[] StructuresHigh
         {
             get => _structuresHigh;
             set => Set(ref _structuresHigh, value);
         }
-
         private Struct[] _structuresMid;
         public Struct[] StructuresMid
         {
             get => _structuresMid;
             set => Set(ref _structuresMid, value);
         }
-
         private Struct[] _structuresLow;
         public Struct[] StructuresLow
         {
             get => _structuresLow;
             set => Set(ref _structuresLow, value);
         }
-
         private Struct[] _structures4;
         public Struct[] Structures4
         {
             get => _structures4;
             set => Set(ref _structures4, value);
         }
-
         private StructSet[] _structureSets;
         public StructSet[] StructureSets
         {
             get => _structureSets;
             set => Set(ref _structureSets, value);
         }
-
         private StructSet _selectedStructureSet;
         public StructSet SelectedStructureSet
         {
             get => _selectedStructureSet;
             set => Set(ref _selectedStructureSet, value);
         }
-
         private Struct _selectedStructurePTVHigh;
         public Struct SelectedStructurePTVHigh
         {
             get => _selectedStructurePTVHigh;
             set => Set(ref _selectedStructurePTVHigh, value);
         }
-
         private Struct _selectedStructurePTVMid;
         public Struct SelectedStructurePTVMid
         {
             get => _selectedStructurePTVMid;
             set => Set(ref _selectedStructurePTVMid, value);
         }
-
         private Struct _selectedStructurePTVLow;
         public Struct SelectedStructurePTVLow
         {
             get => _selectedStructurePTVLow;
             set => Set(ref _selectedStructurePTVLow, value);
         }
-
         private Struct _selectedStructurePTV4;
         public Struct SelectedStructurePTV4
         {
             get => _selectedStructurePTV4;
             set => Set(ref _selectedStructurePTV4, value);
         }
-
         public double InnerMargin { get; set; }
-
         public double OuterMargin { get; set; }
-
         public ICommand StartCommand => new RelayCommand(Start);
         public ICommand GetStructuresCommand => new RelayCommand(GetStructures);
         public ICommand GetRingsCommand => new RelayCommand(CreateRings);
@@ -109,17 +92,42 @@ namespace AutoCrop
             Structures4 = await _esapiService.GetStructureIdsAsync(SelectedStructureSet.StructureSetId);
         }
 
-        private void CreateRings()
+        private async void CreateRings()
         {
             string selectedStructureSetId = SelectedStructureSet?.StructureSetId;
             string ptvHighId = SelectedStructurePTVHigh?.StructureId;
             string ptvMidId = SelectedStructurePTVMid?.StructureId;
             string ptvLowId = SelectedStructurePTVLow?.StructureId;
             string ptv4Id = SelectedStructurePTV4?.StructureId;
-            string ringHighId = "RingHigh";
-            string ringMidId = "RingMid";
-            string ringLowId = "RingLow";
-            string ring4Id = "Ring4";
+
+            string ringHighId = string.Empty;
+            string ringMidId = string.Empty;
+            string ringLowId = string.Empty;
+            string ring4Id = string.Empty;
+
+            _dialogService.ShowProgressDialog("Getting ring high...",
+                async progress =>
+                {
+                    ringHighId = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "RingHigh");
+                });
+
+            _dialogService.ShowProgressDialog("Getting ring mid...",
+                async progress =>
+                {
+                    ringMidId = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "RingMid");
+                });
+
+            _dialogService.ShowProgressDialog("Getting ring low...",
+                async progress =>
+                {
+                    ringLowId = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "RingLow");
+                });
+
+            _dialogService.ShowProgressDialog("Getting ring4...",
+                async progress =>
+                {
+                    ring4Id = await _esapiService.GetEditableRingNameAsync(selectedStructureSetId, "Ring4");
+                });
 
             _dialogService.ShowProgressDialog("Adding Rings High...",
                 async progress =>
