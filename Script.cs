@@ -1,5 +1,5 @@
 using EsapiEssentials.Plugin;
-using AutoCrop;
+using AutoRing_SIB;
 using VMS.TPS.Common.Model.API;
 
 [assembly: ESAPIScript(IsWriteable = true)]
