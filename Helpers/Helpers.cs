@@ -1,21 +1,37 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using VMS.TPS.Common.Model.API;
 
-namespace AutoCrop
+namespace AutoRing_SIB
 {
     public static class Helpers
     {
-
-        public static bool CheckStructures(Patient patient)
+        public static bool CheckStructure(Structure structure)
         {
-            if (patient.StructureSets.Any()) return true;
-            const string message = "Patient does not have any structures.";
-            const string title = "Invalid patient";
-            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Error);
-            return false;
+            if (structure.ApprovalHistory.FirstOrDefault().ApprovalStatus == VMS.TPS.Common.Model.Types.StructureApprovalStatus.Approved)
+                return false;
+            else
+                return true;
+        }
+
+        public static bool CheckStructureSet(Patient patient, StructureSet structureSet)
+        {
+            bool canModifyStructureSet = false;
+            foreach (Course course in patient.Courses)
+            {
+                foreach (PlanSetup planSetup in course.PlanSetups)
+                {
+                    if (planSetup.StructureSet == structureSet)
+                    {
+                        if (course.CompletedDateTime == null) //course is active and can modify ss
+                            canModifyStructureSet = true;
+                        else  //course is completed and cannot modify ss
+                            return false;
+                    }
+                }
+            }
+            return canModifyStructureSet;
         }
 
         public static Course AddCourse(Patient patient, string courseId)
@@ -50,9 +66,7 @@ namespace AutoCrop
                 {
                     var plansToBeRemoved = oldPlans.ToArray();
                     foreach (var p in plansToBeRemoved)
-                    {
                         course.RemovePlanSetup(p);
-                    }
 }
             }
             catch
@@ -77,7 +91,6 @@ namespace AutoCrop
                     plans.AddRange(temp);
                 }
             }
-            //return plans.Single() as ExternalPlanSetup;
             return plans.First() as ExternalPlanSetup;
         }
 
@@ -97,7 +110,6 @@ namespace AutoCrop
             }
             catch
             {
-
             }
         }
     }
