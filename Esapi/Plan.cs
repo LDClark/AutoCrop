@@ -1,4 +1,4 @@
-﻿namespace AutoCrop
+﻿namespace AutoRing_SIB
 {
     public class Plan
     {
