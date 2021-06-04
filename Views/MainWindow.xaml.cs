@@ -1,7 +1,7 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Interactivity;
 
-namespace AutoCrop
+namespace AutoRing_SIB
 {
     public partial class MainWindow : Window
     {
