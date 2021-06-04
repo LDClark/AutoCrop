@@ -1,23 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using VMS.TPS.Common.Model.API;
-using VMS.TPS.Common.Model.Types;
 
-namespace AutoCrop
+namespace AutoRing_SIB
 {
     public class RingGeneration
     {
-        //public const string Body = "BODY";
-        //public const string RingHigh = "Ring_High";
-        //public const string RingMid = "Ring_Mid";
-        //public const string RingLow = "Ring_Low";
-
-
         public void CreateRingFromPTV(StructureSet structureSet, string ptvId, string ringId, double innerMargin, double outerMargin)
         {
             structureSet.Patient.BeginModifications();
