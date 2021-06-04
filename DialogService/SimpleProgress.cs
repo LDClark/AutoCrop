@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AutoCrop
+namespace AutoRing_SIB
 {
     public class SimpleProgress : ISimpleProgress
     {
