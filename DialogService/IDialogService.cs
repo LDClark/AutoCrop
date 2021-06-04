@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace AutoCrop
+namespace AutoRing_SIB
 {
     public interface IDialogService
     {
